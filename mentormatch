@@ -1,0 +1,41 @@
+from collections import defaultdict
+
+# Sample data for mentors and students
+mentors = [
+    {"name": "Mentor 1", "skills": ["Python", "Data Science"], "interests": ["Machine Learning"]},
+    {"name": "Mentor 2", "skills": ["Java", "Web Development"], "interests": ["Front-end Development"]},
+    {"name": "Mentor 3", "skills": ["Python", "Data Science"], "interests": ["Natural Language Processing"]},
+]
+
+students = [
+    {"name": "Student 1", "skills": ["Python", "Data Science"], "interests": ["Machine Learning"]},
+    {"name": "Student 2", "skills": ["Java", "Web Development"], "interests": ["Back-end Development"]},
+    {"name": "Student 3", "skills": ["Python", "Machine Learning"], "interests": ["Data Visualization"]},
+]
+
+# Dictionary to store mentor-student matches
+matches = defaultdict(list)
+
+# Matching mentors with students based on skills
+for mentor in mentors:
+    mentor_skills = set(mentor["skills"])
+    for student in students:
+        student_skills = set(student["skills"])
+        common_skills = mentor_skills.intersection(student_skills)
+        if common_skills:
+            matches[mentor["name"]].append(student["name"])
+
+# Matching mentors with students based on interests
+for mentor in mentors:
+    mentor_interests = set(mentor["interests"])
+    for student in students:
+        student_interests = set(student["interests"])
+        common_interests = mentor_interests.intersection(student_interests)
+        if common_interests:
+            matches[mentor["name"]].append(student["name"])
+
+# Displaying mentor-student matches
+for mentor, students in matches.items():
+    print(f"Mentor: {mentor}")
+    print(f"Students: {', '.join(students)}")
+    print()
