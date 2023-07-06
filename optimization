@@ -1,0 +1,41 @@
+import itertools
+from scipy.optimize import minimize
+
+# Define the distance matrix
+distance_matrix = [
+    [0, 10, 15],  # Mentor 0 distances: [0, 10, 15]
+    [10, 0, 20],  # Mentor 1 distances: [10, 0, 20]
+    [15, 20, 0]   # Mentor 2 distances: [15, 20, 0]
+]
+
+# Define the objective function for the TSP
+def tsp_objective(route, distance_matrix):
+    total_distance = 0
+    for i in range(len(route) - 1):
+        mentor = route[i]
+        next_mentor = route[i + 1]
+        total_distance += distance_matrix[mentor][next_mentor]
+    return total_distance
+
+# Define the constraints for the TSP
+constraints = (
+    {'type': 'eq', 'fun': lambda x: sum(x) - len(distance_matrix)},
+    {'type': 'eq', 'fun': lambda x: len(set(x)) - len(distance_matrix)},
+)
+
+# Generate all possible routes using itertools.permutations
+n_locations = len(distance_matrix)
+all_routes = list(itertools.permutations(range(n_locations)))
+
+# Solve the TSP using the minimize function from scipy.optimize
+best_route = None
+best_distance = float('inf')
+for route in all_routes:
+    result = minimize(tsp_objective, route, args=(distance_matrix,), constraints=constraints)
+    if result.success and result.fun < best_distance:
+        best_route = result.x
+        best_distance = result.fun
+
+# Print the best route and distance
+print("Best route:", best_route)
+print("Best distance:", best_distance)
