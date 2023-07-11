@@ -1,0 +1,33 @@
+import requests
+
+# NASA API endpoint
+nasa_api_endpoint = 'https://api.nasa.gov/planetary/apod'
+
+# NASA API key
+nasa_api_key = 'YOUR_NASA_API_KEY'
+
+def get_astronomy_picture_of_the_day():
+    params = {
+        'api_key': nasa_api_key
+    }
+    response = requests.get(nasa_api_endpoint, params=params)
+    data = response.json()
+    return data
+
+def process_user_input(user_input):
+    user_input = user_input.lower()
+    if 'picture of the day' in user_input or 'apod' in user_input:
+        astronomy_picture = get_astronomy_picture_of_the_day()
+        image_url = astronomy_picture['url']
+        explanation = astronomy_picture['explanation']
+        return f"Here is the Astronomy Picture of the Day:\n{image_url}\n\nExplanation: {explanation}"
+    elif 'help' in user_input:
+        return "I'm an AI assistant for space-related queries. You can ask me for the Astronomy Picture of the Day (APOD)."
+    else:
+        return "Sorry, I didn't understand that. Please ask a space-related question or type 'help' for assistance."
+
+# Main loop
+while True:
+    user_input = input("Ask me a question: ")
+    response = process_user_input(user_input)
+    print(response)
