@@ -1,0 +1,29 @@
+import numpy as np
+
+# Dummy data (replace with your dataset)
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y = np.array([0, 1, 1, 0])
+
+# Initialize weights and biases
+input_size = 2
+hidden_size = 4
+output_size = 1
+
+# Define activation function (e.g., ReLU)
+def relu(x):
+    return np.maximum(0, x)
+
+# Forward propagation
+def forward(X):
+    hidden_layer = relu(np.dot(X, W1) + b1)
+    output_layer = np.dot(hidden_layer, W2) + b2
+    return output_layer
+
+# Training loop (gradient descent)
+# ...
+
+# Make predictions
+predictions = forward(X)
+print("Predictions:", predictions)
+
+# Remember to adjust hyperparameters and customize for your problem!
